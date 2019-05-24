@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Pacifico">
+  <link rel="icon" href="http://obj-cache.cloud.ruanbekker.com/favicon.ico">
+  <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../static/css/main.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+
+
+  <title>Fourteenth Search</title>
+
+</head>
+
+<body>
+
+  <p style="position: absolute; top: 1%; right: 5%">
+    <font size="4">Tìm kiếm nâng cao</font>
+  </p>
+
+  <form action="/advance_search" method="post"></form>
+  <label class="switch" style="position: absolute; top: 0%; right: 0%">
+    <input type="checkbox" id="search-box">
+    <span class="slider round"></span>
+  </label>
+  </form>
+
+  <div class="container">
+    <div style="background:transparent !important" class="jumbotron">
+      <div style="font-family: 'Pacifico', cursive;">
+        <p>
+          <center>
+            <font size="8">Fourteenth Group</font>
+          </center>
+        </p>
+      </div>
+    </div>
+
+    <form action="/search/results" method="post">
+      <div class="input-group">
+        <input type="text" class="form-control input-lg" name="input" placeholder="Search" autofocus>
+        <div class="input-group-btn">
+          <button class="btn btn-primary btn-lg" type="submit">
+            <i class="glyphicon glyphicon-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+
+    <center>
+      <h1>Số kết quả: ({{ res['hits']['total'] }}) </h1>
+    </center>
+
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Thời gian</th>
+          <th>Tiêu đề</th>
+          <th>Nội dung</th>
+          <th>Loại tin</th>
+        </tr>
+      </thead>
+
+      {% for hit in res['hits']['hits'] %}
+      <tbody>
+        <tr>
+          <th scope="row" width=10%>{{ hit['_source']['time'] }}</th>
+          <td width=20%><a href="{{ hit['_source']['url'] }}"> {{hit['_source']['title'] }}</a></td>
+          <td width=55%>{{ hit['_source']['content'] }}</td>
+          <td width=15%>{{ hit['_source']['type_lv1'] + ' ==> '+ hit['_source']['type_lv2'] }}</td>
+        </tr>
+      </tbody>
+      {% endfor %}
+    </table>
+  </div>
+  </div>
+  <script>
+    $('#search-box').change(function () {
+      if (this.checked) {
+        window.location.replace('/advance_search')
+      }
+    });
+  </script>
+</body>
+
+</html>
